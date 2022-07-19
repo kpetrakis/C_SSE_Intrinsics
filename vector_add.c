@@ -3,12 +3,23 @@
 #include <stdint.h>
 #include <math.h>
 
+#ifdef __SSE2__
+        #include <emmintrin.h>
+#else
+        #warning My processor does not support __SSE2__!
+#endif
+
 #define N 10000
 
 float A[N];
 float B[N];
 float C[N];
 float val[N]; // gia debug
+
+// vectors of four floating point numbers (4x32 = 128 bits)
+__m128 *Am = (__m128 *)A;
+__m128 *Bm = (__m128 *)B;
+__m128 *Cm = (__m128 *)C;
 
 // monotonic time in C
 uint64_t nanos(){
@@ -18,8 +29,11 @@ uint64_t nanos(){
 }
 
 void vec_add(){
-	for (int i=0;i<N;i++){
+/*	for (int i=0;i<N;i++){
 		C[i] = A[i] + B[i];
+	}*/
+	for(int i=0;i<N/4;i++){
+		Cm[i] = _mm_add_ps(Am[i], Bm[i]);
 	}
 }
 
