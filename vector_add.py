@@ -6,14 +6,14 @@ import os
 
 np.set_printoptions(suppress=True)
 
-N = 10000
+N = 100000
 
 if __name__ =='__main__':
 
     A = np.random.randn(N).astype(np.float32)
     B = np.random.randn(N).astype(np.float32)
 
-    # N operations for vector add compute
+    # compute: N operations for vector addition
     flop = N
     print(f"flop: {flop/1e9:.2f} GFLOP")
     for i in range(10):

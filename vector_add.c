@@ -9,11 +9,11 @@
         #warning My processor does not support __SSE2__!
 #endif
 
-#define N 10000
+#define N 100000
 
-float A[N];
-float B[N];
-float C[N];
+float A[N] __attribute__ ((aligned(32)));
+float B[N]__attribute__ ((aligned(32)));
+float C[N]__attribute__ ((aligned(32)));
 float val[N]; // gia debug
 
 // vectors of four floating point numbers (4x32 = 128 bits)
@@ -54,6 +54,7 @@ int main(){
 	uint64_t start = nanos();
 	vec_add();
 	uint64_t end = nanos();
+	// compute: N floating point operations for vector add
 	float gflop = N*1e-9;
 	float s = (end-start)*1e-9;
 	printf("Gflop: %f\n", gflop);
